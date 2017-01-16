@@ -1,16 +1,11 @@
 package com.alpha.model;
 
-import java.sql.Blob;
-
 public class User {
 	private String userName;
 	private String emailId;
-	private Blob password;
-	
-	public User(String userName, String emailId) {
-		this.userName = userName;
-		this.emailId = emailId;
-	}
+	private String password;
+	private String phoneNumber;
+
 	public String getUserName() {
 		return userName;
 	}
@@ -23,10 +18,16 @@ public class User {
 	public void setEmailId(String emailId) {
 		this.emailId = emailId;
 	}
-	public Blob getPassword() {
+	public String getPassword() {
 		return password;
 	}
-	public void setPassword(Blob password) {
+	public void setPassword(String password) {
 		this.password = password;
+	}
+	public String getPhoneNumber() {
+		return phoneNumber;
+	}
+	public void setPhoneNumber(String phoneNumber) {
+		this.phoneNumber = phoneNumber;
 	}
 }
