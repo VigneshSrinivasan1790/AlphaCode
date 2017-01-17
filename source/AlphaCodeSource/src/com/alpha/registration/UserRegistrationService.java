@@ -4,7 +4,7 @@ import com.alpha.model.User;
 
 public interface UserRegistrationService{
 
-	int registerUser(User user);
+	String registerUser(User user);
 	
 	User displayUser(String userName);
 

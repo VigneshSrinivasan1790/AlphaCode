@@ -17,19 +17,19 @@ public class UserRegistrationServiceImpl implements UserRegistrationService {
 	private Repository userRegistrationRepository;
 	Connection con = null;
 
-	private final String SAMPLE_SELECT = "SELECT USERNAME,EMAILID FROM TEAMALPHA.USERREGISTRATION WHERE USERNAME = ?";
+	private final String SAMPLE_SELECT = "SELECT EMAILID FROM TEAMALPHA.USERREGISTRATION WHERE EMAILID = ?";
 	public UserRegistrationServiceImpl(Repository userRegistrationRepository) {
 		this.userRegistrationRepository = userRegistrationRepository;
 	}
 	public User displayUser(String userName) {
 
-		User user = null;
+		User user = new User();
 		try(Connection con = userRegistrationRepository.getConnection()) {
 			PreparedStatement ps = con.prepareStatement(SAMPLE_SELECT);
 			ps.setString(1, userName);
 			ResultSet rs = ps.executeQuery();
 			if (rs.next()) {
-
+				user.setEmailId(rs.getString("EMAILID"));
 			}
 			rs.close();
 			ps.close();
@@ -40,14 +40,14 @@ public class UserRegistrationServiceImpl implements UserRegistrationService {
 		return user;
 	}
 
-	public int registerUser(User user){
+	public String registerUser(User user){
 
 		String sql = "INSERT INTO TEAMALPHA.USERREGISTRATION " +
 				"(USERNAME, EMAILID, PHONENUMBER, USERPASSWORD) VALUES (?, ?, ?, ?)";
-		int status = 0;
+		String status = "";
 		
-		if(displayUser(user.getUserName()) != null) {
-			return -1;
+		if(displayUser(user.getEmailId()).getEmailId() != null) {
+			return "Email Id already registered!";
 		}
 
 		try(Connection con = userRegistrationRepository.getConnection()) {
@@ -56,7 +56,10 @@ public class UserRegistrationServiceImpl implements UserRegistrationService {
 			ps.setString(2, user.getEmailId());
 			ps.setString(3, user.getPhoneNumber());
 			ps.setString(4, getHashPassword(user.getPassword()));
-			status = ps.executeUpdate();
+			if(ps.executeUpdate() == 1)
+				status = "User Registered Successfully.";
+			else
+				status = "Error registering user. Please try again.";
 			ps.close();
 		} catch (SQLException e) {
 			throw new RuntimeException(e);

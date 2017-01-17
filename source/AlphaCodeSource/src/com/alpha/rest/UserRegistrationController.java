@@ -9,17 +9,17 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import org.apache.log4j.Logger;
-import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.alpha.model.User;
 import com.alpha.registration.UserRegistrationService;
+import com.alpha.util.ObjectJsonMapper;
 
 @Component
 @Path("/registration")
 public class UserRegistrationController {
-	Logger logger = Logger.getLogger(UserRegistrationController.class);
+	Logger logger = Logger.getLogger(UserRegistrationController.class.getName());
 
 	@Autowired
 	UserRegistrationService registrationBo;
@@ -28,23 +28,18 @@ public class UserRegistrationController {
 	@Path("/userRegistration")
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response registerUser(String mess) {
-		int status = 400;
 		String message = "";
-		ObjectMapper mapper = new ObjectMapper();
 		User user;
 		try {
-			user = mapper.readValue(mess, User.class);
-			System.out.println(user.getUserName() + "   " + user.getEmailId());
+			user = (User) ObjectJsonMapper.jsonObjectMapper(mess, User.class);
 			
-			int result = registrationBo.registerUser(user);
-			if(result == 1)
-				status = 200;
-			message = "User Registered successfully";
+			message = registrationBo.registerUser(user);
+			logger.info(message);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		
-		return Response.status(status).entity(message).build();
+		return Response.status(200).entity(message).build();
 
 	}
 
