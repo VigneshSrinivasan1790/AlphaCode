@@ -9,6 +9,7 @@ CREATE TABLE userRegistration (
 	emailId VARCHAR(50) NOT NULL,
     phoneNumber VARCHAR(20) NOT NULL,
 	userPassword VARCHAR(100) NOT NULL,
+    accountIsActive CHAR(1) DEFAULT 'I' NOT NULL,
     PRIMARY KEY(id),
     UNIQUE(emailId)
   );

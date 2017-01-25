@@ -8,7 +8,8 @@
 	<context:component-scan base-package="com.alpha.rest" />
 
 	<bean id="registrationBo" class="com.alpha.registration.impl.UserRegistrationServiceImpl">
-		<constructor-arg ref="registrationRepository"/>			
+		<constructor-arg ref="registrationRepository"/>	
+		<constructor-arg ref="mailerUtil"/>		
 	</bean>
 
 
@@ -23,6 +24,8 @@
 	<bean id="registrationRepository" class="com.alpha.common.dao.RepositoryImpl" >
 	<constructor-arg ref="dataSource"/>
 	</bean>
+	
+	<bean id="mailerUtil" class="com.alpha.util.MailerUtil"/>
 
 	<context:property-placeholder location="WEB-INF/properties/jdbc.properties" />
 

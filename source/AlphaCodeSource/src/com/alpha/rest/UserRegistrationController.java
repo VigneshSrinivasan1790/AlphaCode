@@ -21,6 +21,8 @@ import com.alpha.util.ObjectJsonMapper;
 public class UserRegistrationController {
 	Logger logger = Logger.getLogger(UserRegistrationController.class.getName());
 
+
+	
 	@Autowired
 	UserRegistrationService registrationBo;
 

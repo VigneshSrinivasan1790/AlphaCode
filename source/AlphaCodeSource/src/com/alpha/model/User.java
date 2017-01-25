@@ -1,6 +1,7 @@
 package com.alpha.model;
 
 public class User {
+	private int userId;
 	private String userName;
 	private String emailId;
 	private String password;
@@ -29,5 +30,11 @@ public class User {
 	}
 	public void setPhoneNumber(String phoneNumber) {
 		this.phoneNumber = phoneNumber;
+	}
+	public int getUserId() {
+		return userId;
+	}
+	public void setUserId(int userId) {
+		this.userId = userId;
 	}
 }
